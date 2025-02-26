@@ -3,3 +3,4 @@
 /venv
 /passenger_wsgi.py
 /static
+*/__pycache__/*
