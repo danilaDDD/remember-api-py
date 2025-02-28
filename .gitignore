@@ -2,7 +2,6 @@
 /.idea
 /venv
 /passenger_wsgi.py
-/rememberapi
 /static
 */__pycache__/*
 /logs/
