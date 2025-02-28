@@ -1,4 +1,4 @@
-/remember-api/local_settings.py
+/settings/local_settings.py
 /.idea
 /venv
 /passenger_wsgi.py
