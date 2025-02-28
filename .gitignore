@@ -1,8 +1,9 @@
-/rememberapi/local_settings.py
+/settings/local_settings.py
 /.idea
 /venv
 /passenger_wsgi.py
 /static
 */__pycache__/*
 /logs/
-/rememberapi
+/settings
+/webstats
