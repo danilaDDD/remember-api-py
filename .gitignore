@@ -5,5 +5,4 @@
 /static
 */__pycache__/*
 /logs/
-/settings
 /webstats
