@@ -3,6 +3,6 @@
 /venv
 /passenger_wsgi.py
 /static
-*/__pycache__/*
+/__pycache__/
 /logs/
 /webstats
