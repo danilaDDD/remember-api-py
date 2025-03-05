@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     
     # Install apps
     'rest_framework',
-    
+    'ckeditor',
+
     # User apps
     'common',
     'account',
@@ -135,6 +136,8 @@ STATIC_ROOT = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 from .logger import *
+
+from .ckeditor import *
 
 try:
     from .local_settings import *
