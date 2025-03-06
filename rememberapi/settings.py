@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # User apps
     'common',
     'account',
+    'infocard',
 ]
 
 MIDDLEWARE = [
