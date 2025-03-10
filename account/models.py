@@ -13,7 +13,7 @@ class PrimaryAccess(AbsCreated, AbsActive):
         return self.owner
 
     class Meta:
-        verbose_name = 'Токен доступ'
+        verbose_name = 'Токен доступа'
         verbose_name_plural = 'Токены доступа'
 
 
