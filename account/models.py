@@ -32,6 +32,7 @@ class Account(AbstractUser, AbsCreated):
     email = models.EmailField('Email', unique=True)
     birth_date = models.DateField('Дата рождения', null=True, blank=True)
     gender = models.CharField('Пол', max_length=20, choices=GENDERS, default=NONE_GENDER)
+    chat_id = models.CharField('ID чата', max_length=50, blank=True)
     groups = models.ManyToManyField(blank=True,
                                       help_text='Группы, к которым принадлежит данный пользователь. Пользователь получает все разрешения, предоставленные каждой из его групп.',
                                       related_name='user_set', related_query_name='user', to='auth.Group',
