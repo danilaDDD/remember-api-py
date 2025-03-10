@@ -10,7 +10,7 @@ class PrimaryAccessPermission(permissions.BasePermission):
         return False
 
     def exist_token(self, request):
-        token = request.META.get('HTTP_X_ACCESS_TOKEN')
+        token = request.headers.get('X-Access-Token')
         if token:
             return PrimaryAccess.objects.filter(token=token, is_active=True).exists()
         return False
