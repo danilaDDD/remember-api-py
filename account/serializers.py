@@ -14,22 +14,3 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = ['id', 'username', 'password',  'first_name', 'last_name', 'patronymic',
                   'email', 'phone', 'birth_date', 'gender', 'chat_id']
-
-
-class CustomObtainTokenSerializer(TokenObtainPairSerializer):
-    expiration_date: datetime = None
-
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        cls.expiration_date = datetime.fromtimestamp(token['exp'])
-
-        return token
-
-    def validate(self, attrs):
-        data = super().validate(attrs)
-
-        data['expirationSeconds'] = int((self.expiration_date - datetime.now()).total_seconds())
-
-        return data
