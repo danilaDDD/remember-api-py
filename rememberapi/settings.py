@@ -144,7 +144,7 @@ from .logger import *
 
 from .ckeditor import *
 
-from .rest import *
+from .auth import *
 
 try:
     from .local_settings import *
