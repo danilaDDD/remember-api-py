@@ -1,14 +1,13 @@
-from datetime import datetime
-
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainSerializer, TokenObtainPairSerializer, \
-    TokenRefreshSerializer
 
 from account.models import Account
 
 
 class AccountSerializer(serializers.ModelSerializer):
     chat_id = serializers.CharField(required=True, allow_blank=False, min_length=5)
+
+    def create(self, validated_data):
+        return Account.objects.create_user(**validated_data)
 
     class Meta:
         model = Account

@@ -12,7 +12,7 @@ class PrimaryAccessAdmin(admin.ModelAdmin):
 @admin.register(Account)
 class AccountAdmin(admin.ModelAdmin):
     list_display = ('username', 'phone', 'email', 'is_active', 'chat_id', 'created', 'updated',)
-    readonly_fields = ['created', 'updated',]
+    readonly_fields = ['password', 'created', 'updated',]
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'patronymic', 'email',
