@@ -1,4 +1,3 @@
-from django.contrib.auth.management.commands.createsuperuser import PASSWORD_FIELD
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
@@ -28,7 +27,7 @@ class Account(AbstractUser, AbsCreated):
         (FEMALE_GENDER, 'Женский')
     )
 
-    password = models.CharField('Пароль', max_length=128, editable=False)
+    password = models.CharField('Пароль', max_length=128)
     patronymic = models.CharField('Отчество', max_length=50, blank=True)
     phone = models.CharField('Номер телефона', max_length=50, blank=True)
     email = models.EmailField('Email', blank=True, null=True)
