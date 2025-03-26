@@ -7,6 +7,8 @@ from common.models import AbsCreated, AbsActive
 # Create your models here.
 class Tag(AbsCreated, AbsActive):
     title = models.CharField('Название', max_length=100, unique=True)
+    account = models.ForeignKey('account.Account', verbose_name='Пользователь', related_name='tags',
+                                on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -19,6 +21,8 @@ class Tag(AbsCreated, AbsActive):
 class InfoCard(AbsCreated, AbsActive):
     question = RichTextUploadingField('Вопрос')
     answer = RichTextUploadingField('Ответ')
+    account = models.ForeignKey('account.Account', verbose_name='Пользователь', related_name='info_cards',
+                                on_delete=models.CASCADE)
 
     def __str__(self):
         return self.question[:7]
@@ -29,7 +33,7 @@ class InfoCard(AbsCreated, AbsActive):
 
 
 class InfoCardTag(AbsCreated):
-    info_card = models.ForeignKey('infocard.InfoCard', related_name='info_card_items', on_delete=models.CASCADE)
+    info_card = models.ForeignKey('infocard.InfoCard', related_name='tag_items', on_delete=models.CASCADE)
     tag = models.ForeignKey('infocard.Tag', related_name='tag_items', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -57,10 +61,17 @@ class Remember(AbsCreated, AbsActive):
     date = models.DateTimeField('Время')
     info_card = models.ForeignKey('infocard.InfoCard', verbose_name='Карточка', related_name='remembers',
                                   on_delete=models.CASCADE)
+    real_answer = RichTextUploadingField('Реальный ответ')
     status = models.CharField('Статус', choices=STATUSES, default=STATUS_NEW, max_length=20)
 
     def __str__(self):
         return f'{self.date}, {self.info_card}, {self.status}'
+
+    def get_question(self) -> str:
+        return self.info_card.question
+
+    def get_answer(self) -> str:
+        return self.info_card.answer
 
     class Meta:
         verbose_name = 'Повторение'

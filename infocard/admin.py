@@ -56,10 +56,10 @@ class InlineRememberAdmin(admin.TabularInline):
 
 @admin.register(InfoCard)
 class InfoCardAdmin(admin.ModelAdmin):
-    list_display = ['is_active', ]
+    list_display = ['account', 'is_active', 'id']
     list_filter = ['is_active',]
     fieldsets = (
-        (None, {'fields': ('question', 'answer', 'is_active',)}),
+        (None, {'fields': ('account', 'question', 'answer', 'is_active',)}),
     )
     readonly_fields = ['created', 'updated', ]
     date_hierarchy = 'created'
