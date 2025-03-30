@@ -1,3 +1,3 @@
 import infocard.apps
 
-default_app_config = infocard.apps.InfoCardConfig
+default_app_config = 'infocard.apps.InfoCardConfig'

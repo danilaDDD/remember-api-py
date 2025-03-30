@@ -23,6 +23,21 @@ class InfoCard(AbsCreated, AbsActive):
     answer = RichTextUploadingField('Ответ')
     account = models.ForeignKey('account.Account', verbose_name='Пользователь', related_name='info_cards',
                                 on_delete=models.CASCADE)
+    tags_text = models.CharField('Теги', max_length=255)
+    closed = models.BooleanField('Закрыто', default=True)
+
+    def update_tags_text(self):
+        self.tags_text = '>'.join([tag_item.tag.title
+                            for tag_item in
+                            self.tag_items.prefetch_related('tag').order_by('-tag_id')])
+
+    def update_closed(self):
+        last_remember = self.remembers.order_by('-date').first()
+        if last_remember is not None:
+            if last_remember.status == Remember.STATUS_TRUE:
+                self.closed = True
+            elif last_remember.status == Remember.STATUS_NEW:
+                self.closed = False
 
     def __str__(self):
         return self.question[:7]
@@ -42,7 +57,6 @@ class InfoCardTag(AbsCreated):
     class Meta:
         verbose_name = 'Информационная карта - тег'
         verbose_name_plural = 'Информационная карта - тег'
-
 
 class Remember(AbsCreated, AbsActive):
     STATUS_NEW = 'new'

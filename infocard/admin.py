@@ -59,7 +59,7 @@ class InfoCardAdmin(admin.ModelAdmin):
     list_display = ['account', 'is_active', 'id']
     list_filter = ['is_active',]
     fieldsets = (
-        (None, {'fields': ('account', 'question', 'answer', 'is_active',)}),
+        (None, {'fields': ('account', 'question', 'answer', 'is_active', 'closed',)}),
     )
     readonly_fields = ['created', 'updated', ]
     date_hierarchy = 'created'
