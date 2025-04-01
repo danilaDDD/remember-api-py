@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'common',
     'account',
     'infocard',
+    'trainings',
 ]
 
 MIDDLEWARE = [

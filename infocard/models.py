@@ -76,7 +76,7 @@ class RememberQuerySet(models.QuerySet):
                 card2remember[card] = remember_list[0]
 
         if limit is not None:
-            remember_ids = [remember.id for remember in card2remember.values()[:limit]]
+            remember_ids = [remember.id for remember in list(card2remember.values())[:limit]]
         else:
             remember_ids = [remember.id for remember in card2remember.values()]
 
