@@ -1,5 +1,8 @@
+from datetime import date
+
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
+from django.db.models import Prefetch
 
 from common.models import AbsCreated, AbsActive
 
@@ -58,7 +61,30 @@ class InfoCardTag(AbsCreated):
         verbose_name = 'Информационная карта - тег'
         verbose_name_plural = 'Информационная карта - тег'
 
-class Remember(AbsCreated, AbsActive):
+
+class RememberQuerySet(models.QuerySet):
+    def waited_answer(self, account_id: int, day: date, limit: int | None) -> 'models.QuerySet[Remember]':
+        cards = (InfoCard.objects
+                 .filter(account_id=account_id, closed=False)
+                 .prefetch_related(Prefetch('remembers',
+                                queryset=self.filter(date__date__lte=day)
+                                            .exclude(status='true')
+                                            .order_by('-date'),)))
+        card2remember = dict()
+        for card in cards:
+            remember_list = list(card.remembers.all())
+            if remember_list:
+                card2remember[card] = remember_list[0]
+
+        if limit is not None:
+            remember_ids = [remember.id for remember in card2remember.values()[:limit]]
+        else:
+            remember_ids = [remember.id for remember in card2remember.values()]
+
+        return self.filter(id__in=remember_ids)
+
+
+class Remember(AbsCreated):
     STATUS_NEW = 'new'
     STATUS_SENT = 'sent'
     STATUS_TRUE = 'true'
@@ -78,14 +104,16 @@ class Remember(AbsCreated, AbsActive):
     real_answer = RichTextUploadingField('Реальный ответ')
     status = models.CharField('Статус', choices=STATUSES, default=STATUS_NEW, max_length=20)
 
-    def __str__(self):
-        return f'{self.date}, {self.info_card}, {self.status}'
-
     def get_question(self) -> str:
         return self.info_card.question
 
     def get_answer(self) -> str:
         return self.info_card.answer
+
+    def __str__(self):
+        return f'{self.date}, {self.info_card}, {self.status}'
+
+    objects = RememberQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Повторение'
