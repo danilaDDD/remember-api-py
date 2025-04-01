@@ -38,20 +38,9 @@ class InlineTagAdmin(admin.TabularInline):
 class InlineRememberAdmin(admin.TabularInline):
     model = Remember
     extra = 0
-    fields = ['date', 'status', ]
+    fields = ['day', 'status', ]
     readonly_fields = ['created', 'updated', ]
-    ordering = ['date', ]
-    actions = ['make_active', 'make_inactive', ]
-
-    def make_active(self, request, queryset):
-        queryset.update(is_active=True)
-
-    make_active.short_description = 'Пометить выбранные записи как активные'
-
-    def make_inactive(self, request, queryset):
-        queryset.update(is_active=False)
-
-    make_inactive.short_description = 'Пометить выбранные записи как неактивные'
+    ordering = ['day', ]
 
 
 @admin.register(InfoCard)

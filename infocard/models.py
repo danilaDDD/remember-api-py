@@ -67,9 +67,8 @@ class RememberQuerySet(models.QuerySet):
         cards = (InfoCard.objects
                  .filter(account_id=account_id, closed=False)
                  .prefetch_related(Prefetch('remembers',
-                                queryset=self.filter(date__date__lte=day)
-                                            .exclude(status='true')
-                                            .order_by('-date'),)))
+                                queryset=self.filter(day__lte=day)
+                                            .exclude(status='true'))))
         card2remember = dict()
         for card in cards:
             remember_list = list(card.remembers.all())
@@ -97,8 +96,7 @@ class Remember(AbsCreated):
         (STATUS_FALSE, 'Отвечен неправильно'),
         (STATUS_NO_ANSWER, 'Не отвечен'),
     )
-
-    date = models.DateTimeField('Время')
+    day = models.DateField('День', blank=True, null=True)
     info_card = models.ForeignKey('infocard.InfoCard', verbose_name='Карточка', related_name='remembers',
                                   on_delete=models.CASCADE)
     real_answer = RichTextUploadingField('Реальный ответ')
@@ -111,7 +109,7 @@ class Remember(AbsCreated):
         return self.info_card.answer
 
     def __str__(self):
-        return f'{self.date}, {self.info_card}, {self.status}'
+        return f'{self.day}, {self.info_card}, {self.status}'
 
     objects = RememberQuerySet.as_manager()
 
