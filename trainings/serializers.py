@@ -31,20 +31,42 @@ class CreateTrainingSerializer(serializers.Serializer):
 
 
 class TrainingItemSerializer(serializers.ModelSerializer):
-    day = serializers.DateField(source='get_day')
+    day = serializers.DateField(source='remember.day')
     question = serializers.CharField(source='remember.get_question')
     answer = serializers.CharField(source='remember.get_answer')
     real_answer = serializers.CharField(source='remember.real_answer')
+    status = serializers.CharField(source='remember.status')
 
     class Meta:
         model = RememberItem
         fields = [
             'id',
             'day',
+            'status',
             'question',
             'answer',
             'real_answer',
             'index',
+        ]
+
+class TrainingItemUpdateSerializer(serializers.ModelSerializer):
+    real_answer = serializers.CharField(source='remember.real_answer')
+    status = serializers.ChoiceField(choices=Remember.STATUSES)
+
+    def update(self, instance: RememberItem, validated_data: dict) -> RememberItem:
+        remember = instance.remember
+        remember.real_answer = validated_data['remember']['real_answer']
+        remember.status = validated_data['status']
+        remember.save()
+
+        return instance
+
+    class Meta:
+        model = RememberItem
+        fields = [
+            'id',
+            'real_answer',
+            'status',
         ]
 
 

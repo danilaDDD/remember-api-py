@@ -16,15 +16,12 @@ class Training(AbsCreated, AbsActive):
         verbose_name_plural = 'Тренировки'
 
 
-class RememberItem(AbsCreated):
+class RememberItem(AbsCreated, AbsActive):
     training = models.ForeignKey(Training, verbose_name='Тренировка',
                                  related_name='items', on_delete=models.CASCADE)
     remember = models.ForeignKey('infocard.Remember', verbose_name='Повторение',
                                  related_name='training_items', on_delete=models.CASCADE)
     index = models.PositiveIntegerField('Индекс', default=0, db_index=True)
-
-    def get_day(self):
-        return self.remember.day
 
     class Meta:
         verbose_name = 'Повторение'
