@@ -1,6 +1,7 @@
 import logging
 
 import pytz
+from django.conf import settings
 from django.http import HttpRequest
 from django.utils import timezone
 
@@ -12,7 +13,7 @@ class CustomCommonMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest):
-        timezone.activate(pytz.timezone('Europe/Moscow'))
+        timezone.activate(pytz.timezone(settings.RENDER_TIME_ZONE))
         response = self.get_response(request)
 
         # Log the response if it's not a 2xx status code

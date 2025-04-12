@@ -17,5 +17,4 @@ class TrainingAdmin(admin.ModelAdmin):
     list_filter = ['is_active',]
     search_fields = ['account__username', ]
     readonly_fields = ['created', 'updated', ]
-    date_hierarchy = 'created'
     inlines = [RememberItemInline, ]
