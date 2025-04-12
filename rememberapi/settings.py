@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'common.middlewares.LoggingNo20xMiddleware',
+    'common.middlewares.CustomCommonMiddleware',
 ]
 
 ROOT_URLCONF = 'rememberapi.urls'
