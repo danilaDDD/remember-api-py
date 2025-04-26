@@ -13,3 +13,9 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = ['id', 'username', 'password',  'first_name', 'last_name', 'patronymic',
                   'email', 'phone', 'birth_date', 'gender', 'chat_id']
+
+class AccountListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Account
+        exclude = ['password', 'is_staff', 'is_superuser', 'is_active', 'last_login',]
